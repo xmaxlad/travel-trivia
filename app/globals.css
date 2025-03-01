@@ -1,0 +1,56 @@
+@import "tailwindcss";
+
+@theme {
+  --font-mystery: var(--font-mystery-quest);
+}
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: var(--font-mystery);
+}
+
+.mystery-font {
+  font-family: var(--font-mystery);
+}
+
+.bg-img{
+  position : absolute;
+  z-index : -1;
+  height : 100%;
+  width:100%;
+}
+
+.hint-box{
+  position: absolute;
+  left: 15%;
+  top : 20%;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width:20%;
+}
+
+.hint-bg{
+  position : absolute;
+  z-index : -1;
+  width: fit;
+  height: auto;
+}
+
+.hint-text{
+  word-wrap : normal;
+}
