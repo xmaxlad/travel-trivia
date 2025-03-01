@@ -9,7 +9,6 @@ export async function GET(){
     try{
         const destinations_count = await prisma.destination.count()
         const random_index = random.int(0,destinations_count)
-        const random_index_arr = [random.int(0,destinations_count),random.int(0,destinations_count),random.int(0,destinations_count)]
         const other_destinations : Destination[] = [] 
 
         const destination = await prisma.destination.findUnique({
@@ -18,19 +17,23 @@ export async function GET(){
             }
         }) as Destination
 
-        random_index_arr.forEach(async(index)=>{
-            if(other_destinations.length < 3){
-                const des = await prisma.destination.findUnique({
-                    where:{
-                        NOT : {
-                            id : destination.id 
-                        },
-                        id : index,
-                    }
-                })
-                other_destinations.push(des as Destination)
-            }
-        })
+        async function findDestination(index : number){
+            const des = await prisma.destination.findUnique({
+                where:{
+                    NOT:{
+                        id : destination.id
+                    },
+                    id : index,
+                }
+            })
+            return des 
+        }
+
+        while(other_destinations.length < 3){
+            const random_int = random.int(0,destinations_count)
+            const des = await findDestination(random_int) 
+            other_destinations.push(des as Destination)
+        }
 
         const trivia_question = {
             id : destination.id,

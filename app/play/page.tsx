@@ -52,7 +52,7 @@ export default function Page(){
                 <div>
                     <HintMultiple hints={question['clues']}></HintMultiple>
                     <div className='grid grid-cols-2' onClick={(e)=>{handleSubmitQuestion(e)}}>
-                    {question['options'].map((opt,idx) => (
+                    {question['options']?.map((opt,idx) => (
                         <Option key={idx} option={opt} idx={idx}/>  
                     ))}
                     </div>
