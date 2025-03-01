@@ -1,6 +1,6 @@
 import {NextResponse} from 'next/server' 
-import prisma from '../../../lib/prisma'
-import { random_index_insert } from '../../../lib/utils'
+import prisma from '@/lib/prisma'
+import { random_index_insert } from '@/lib/utils'
 
 //Generate a new random trivia question. 
 export async function GET(){
