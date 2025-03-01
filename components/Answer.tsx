@@ -1,9 +1,12 @@
+'use client'
 import type {AnswerVerdict} from '@/lib/types'
 import random from 'random'
+import {useRouter} from 'next/navigation'
 
 export default function Answer({wrongOrRight,funFacts,playNext}:{wrongOrRight : AnswerVerdict,funFacts:string[],playNext : () => void}){ 
     const image_uri = wrongOrRight === 'wrong' ? '/sad-emoji.webp' : 'victory.png' 
     const rand_num = random.int(0,1) 
+    const router = useRouter()
     return(
         <div className='z-2 absolute inset-0 flex justify-center items-center bg-black/40'>
             <img src={image_uri} className='w-lg' alt={wrongOrRight}/>
@@ -12,7 +15,7 @@ export default function Answer({wrongOrRight,funFacts,playNext}:{wrongOrRight : 
                     Fun Fact : {funFacts[rand_num]} 
                 </div>
                 <div className='flex flex-row'>
-                <button onClick={playNext}  
+                <button onClick={()=>{router.push('/register')}}   
                 className='cursor-pointer border-2 rounded-lg bg-amber-700 p-4 m-4'>
                     Challange a Friend
                 </button>

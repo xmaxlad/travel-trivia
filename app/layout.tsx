@@ -1,6 +1,7 @@
 import type { Metadata } from "next"
 import { Mystery_Quest } from "next/font/google"
 import "./globals.css"
+import {Providers} from "@/app/providers"
 
 const mysteryQuest = Mystery_Quest({
   weight: '400',
@@ -22,7 +23,9 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${mysteryQuest.className}`}>
         <img src='/background.webp' className='bg-img' alt='bg-image'></img>
-        {children}
+        <Providers> 
+          {children} 
+        </Providers>
       </body>
     </html>
   )

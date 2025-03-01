@@ -1,6 +1,8 @@
 import random from 'random'
 import type {Destination} from './types'
 
+export const ROOT_LINK = process.env.NODE_ENV === 'development' ? 'localhost:3000/play' : 'https://travel-trivia.vercel.app/play' 
+
 export function random_index_insert(original_array : Destination[],insert_element : Destination){
     const random_index = random.int(0,original_array.length) 
     original_array.splice(random_index,0,insert_element)

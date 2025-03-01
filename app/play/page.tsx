@@ -2,36 +2,53 @@
 
 import Option from '@/components/Option'
 import HintMultiple from '@/components/Hint'
-import axios from 'axios'
-import {useState, useEffect, MouseEvent} from 'react'
-import type {Question, AnswerVerdict, Score} from '@/lib/types'
-import { confetti_animation } from '@/lib/confetti'
 import Answer from '@/components/Answer'
 import Navbar from '@/components/Navbar'
+import axios from 'axios'
+
+import { RootState } from '@/lib/store'
+import { confetti_animation } from '@/lib/confetti'
+import type {Question, AnswerVerdict} from '@/lib/types'
+import { incrementCorrect, incrementWrong } from '@/lib/features/scoreSlice'
+
+import {useSearchParams} from 'next/navigation'
+import {useState, useEffect, MouseEvent} from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 
 export default function Page(){
+    //React state that is not needed to be shared anywhere else.
     const [question,setQuestion] = useState<Question>()
-    const [score,setScore] = useState<Score>({total:0,correct:0,wrong:0}) 
     const [wrongOrRight,setWrongOrRight] = useState<AnswerVerdict>('tbd') 
     const [next,setNext] = useState<number>(0) 
+
+    //Redux state that is needed to be shared.
+    const dispatch = useDispatch()
+    const score = useSelector((state: RootState) => state.score)
+
+    //NextJS Search Params
+    const searchParams = useSearchParams()
+    const invitee_username = searchParams.get('invitee_username')
+    const invitee_score = searchParams.get('invitee_score') 
+    const invitee = invitee_username ? {invitee_username, invitee_score : Number(invitee_score)} : null 
 
     const fetchQuestion = async () => {
         try{
             const res = await axios.get('/api/create-question')
             setQuestion(res.data)
+            console.log(res.data) 
         }catch(error){
-            throw new Error(`Error encountered ${error}`)
+            console.log(error)
         }
     }
 
     const handleSubmitQuestion = (e: MouseEvent<HTMLDivElement>) => {
         e.preventDefault()
         if((e.target as HTMLDivElement).innerText.split(' ')[2] === question?.answer) {
-            setScore( {...score , total : score.total + 1, correct : score.correct + 1}) 
+            dispatch(incrementCorrect())
             setWrongOrRight('right')
             confetti_animation()
         } else {
-            setScore( {...score , total : score.total - 1, wrong : score.wrong + 1}) 
+            dispatch(incrementWrong())
             setWrongOrRight('wrong')
         }
     }
@@ -47,19 +64,23 @@ export default function Page(){
 
     return(
         <>
-            <Navbar score={score}></Navbar>
+            <Navbar score={score} invitee={invitee}/> 
             {question ? (
                 <div>
                     <HintMultiple hints={question['clues']}></HintMultiple>
                     <div className='grid grid-cols-2' onClick={(e)=>{handleSubmitQuestion(e)}}>
-                    {question['options']?.map((opt,idx) => (
-                        <Option key={idx} option={opt} idx={idx}/>  
-                    ))}
+                    {
+                        //Todo 
+                        question['options']?.map((opt,idx) => (
+                            <Option key={idx} option={opt} idx={idx}/>  
+                        ))
+                    }
                     </div>
                     {wrongOrRight !== 'tbd' && <Answer wrongOrRight={wrongOrRight} funFacts={question['fun_fact']} playNext={playNext}/>} 
                 </div>
             ) : (
                 <div>
+                    Please refresh the page.
                 </div>
             )}
         </>

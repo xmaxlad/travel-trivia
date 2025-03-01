@@ -44,8 +44,8 @@ export async function GET(){
             answer : destination.city, 
         }
 
-        return NextResponse.json(trivia_question)
+        return NextResponse.json(trivia_question, {status : 200})
     }catch(error){
-        return NextResponse.json({message:'Some error encountered while querying the DB.',error})
+        return NextResponse.json({message:'Some error encountered while querying the DB.',error},{status:400}) 
     }
 }

@@ -29,3 +29,8 @@ export type Score = {
     correct : number,
     wrong : number,
 }
+
+export type Invitee = {
+    invitee_username : string,
+    invitee_score : number,
+}
