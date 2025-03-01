@@ -20,7 +20,7 @@ export default function Page(){
             const res = await axios.get('/api/create-question')
             setQuestion(res.data)
         }catch(error){
-            throw new Error('Some error enountered.')
+            throw new Error(`Error encountered ${error}`)
         }
     }
 

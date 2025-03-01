@@ -21,7 +21,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${mysteryQuest.className}`}>
-        <img src='/background.webp' className='bg-img'></img>
+        <img src='/background.webp' className='bg-img' alt='bg-image'></img>
         {children}
       </body>
     </html>
