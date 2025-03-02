@@ -4,9 +4,10 @@
 1. Clone this repo
 2. Run `npm i`
 3. Create a `.env` file and add DB URL and Unsplash Access Key.(Ask, if needed to be shared.)
-4. Run `npx prisma db seed` to seed the database.
-5. Run `npx prisma generate` to generate a prisma client.
-3. Run `npm run dev`
+4. Run `npx prisma migrate dev --name "init` to migrate the migrations.
+5. Run `npx prisma db seed` to seed the database.
+6. Run `npx prisma generate` to generate a prisma client.
+7. Run `npm run dev`
 
 ## Hoisted Link - 
 Or visit this link - [Vercel Link](https://travel-trivia.vercel.app/)  
